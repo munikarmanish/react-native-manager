@@ -27,7 +27,6 @@ class EmployeeList extends Component {
   }
 
   render() {
-    console.log(this.props);
     return (
       <ScrollView style={{ flex: 1 }}>
         <ListView

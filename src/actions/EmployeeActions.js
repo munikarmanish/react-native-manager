@@ -51,3 +51,18 @@ export const employeeSave = ({ name, phone, shift, uid }) => {
       .catch(() => ToastAndroid.show('Error!', ToastAndroid.SHORT));
   };
 };
+
+export const employeeDelete = (id) => {
+  const { currentUser } = firebase.auth();
+  return () => {
+    firebase.database().ref(`/users/${currentUser.uid}/employees/${id}`)
+      .remove()
+      .then(() => {
+        Actions.employeeList({ type: 'reset' });
+        ToastAndroid.show('Fired!', ToastAndroid.SHORT);
+      })
+      .catch(() => {
+        ToastAndroid.show('Error!', ToastAndroid.SHORT);
+      });
+  };
+};
