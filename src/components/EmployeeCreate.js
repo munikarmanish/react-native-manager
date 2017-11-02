@@ -7,7 +7,7 @@ import { employeeUpdate, employeeCreate } from '../actions';
 class EmployeeCreate extends Component {
   onButtonPress() {
     const { name, phone, shift } = this.props;
-    this.props.employeeCreate({ name, phone, shift });
+    this.props.employeeCreate({ name, phone, shift: shift || 'Monday' });
   }
 
   render() {
@@ -50,7 +50,7 @@ class EmployeeCreate extends Component {
         </CardSection>
 
         <CardSection>
-          <Button>Save</Button>
+          <Button onPress={this.onButtonPress.bind(this)}>Save</Button>
         </CardSection>
       </Card>
     );
