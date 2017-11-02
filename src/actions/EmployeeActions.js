@@ -1,15 +1,16 @@
 import firebase from 'firebase';
+import { ToastAndroid } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import {
   EMPLOYEE_UPDATE, EMPLOYEE_CREATE, EMPLOYEE_FETCH_SUCCESS, EMPLOYEE_SAVE_SUCCESS
 } from './types';
 
-export const employeeUpdate = (prop, value) => (
-  {
+export const employeeUpdate = (prop, value) => {
+  return {
     type: EMPLOYEE_UPDATE,
     payload: { prop, value },
-  }
-);
+  };
+};
 
 export const employeeCreate = ({ name, phone, shift }) => {
   const { currentUser } = firebase.auth();
@@ -19,6 +20,10 @@ export const employeeCreate = ({ name, phone, shift }) => {
       .then(() => {
         dispatch({ type: EMPLOYEE_CREATE });
         Actions.employeeList({ type: 'reset' });
+        ToastAndroid.show('Added!', ToastAndroid.SHORT);
+      })
+      .catch(() => {
+        ToastAndroid.show('Error!', ToastAndroid.SHORT);
       });
   };
 };
@@ -40,8 +45,9 @@ export const employeeSave = ({ name, phone, shift, uid }) => {
       .set({ name, phone, shift })
       .then(() => {
         dispatch({ type: EMPLOYEE_SAVE_SUCCESS });
-        Actions.employeeList({ type: 'reset' })
+        Actions.employeeList({ type: 'reset' });
+        ToastAndroid.show('Saved!', ToastAndroid.SHORT);
       })
-      .catch(() => console.log('Error saving!'));
+      .catch(() => ToastAndroid.show('Error!', ToastAndroid.SHORT));
   };
 };
